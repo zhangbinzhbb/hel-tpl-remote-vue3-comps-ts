@@ -11,13 +11,14 @@ module.exports = defineConfig({
   productionSourceMap: true,
   outputDir: helDevUtils.cst.HEL_DIST_DIR,
   transpileDependencies: true,
+  lintOnSave: false,
   configureWebpack: config => {
     if (!config.output) config.output = {};
     config.output.library = appInfo.groupName;
     config.output.libraryTarget = 'umd';
     // config.output.jsonpFunction = subApp.jsonpFnName; // for webpack 4
     config.output.chunkLoadingGlobal = appInfo.jsonpFnName; // for webpack 5
-    config.externals = appInfo.externals;
+    // config.externals = appInfo.externals;
     config.optimization = {
       splitChunks: {
         maxSize: 6000000,
