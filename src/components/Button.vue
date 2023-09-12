@@ -1,5 +1,5 @@
 <template>
-  <button @click="inc">vue2 button click</button>
+   <el-button @click="inc">vue3 button click</el-button>
   <p>{{ count }}</p>
 </template>
 

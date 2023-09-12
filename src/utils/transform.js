@@ -1,7 +1,9 @@
 // import Vue2 from 'lib-zhangbb-component';
-import { createApp, h } from "vue";
-import { preFetchLib } from "hel-micro";
-function bindSlotContext(target = {}, context) {
+import { createApp, h } from 'vue';
+import { preFetchLib } from 'hel-micro';
+import ElementPlus from 'element-plus'
+
+function bindSlotContext (target = {}, context) {
   return Object.keys(target).map((key) => {
     const vnode = target[key];
     vnode.context = context;
@@ -13,7 +15,7 @@ function bindSlotContext(target = {}, context) {
 const enableCustom = !!window.location.port;
 const fetchOptions = {
   custom: {
-    host: "http://localhost:7001",
+    host: 'http://localhost:7001',
     enable: enableCustom,
     /**
      * defaut: false
@@ -30,13 +32,13 @@ const fetchOptions = {
 /*
  * Transform vue2 components to DOM.
  */
-export function vue2ToVue3(WrapperComponent, wrapperId) {
+export function vue2ToVue3 (WrapperComponent, wrapperId) {
   let vm;
   return {
-    async mounted() {
+    async mounted () {
       const slots = bindSlotContext(this.$slots, this.__self);
-      const mod = await preFetchLib("lib-zhangbb-component", fetchOptions);
-      console.log("mod===>", mod);
+      const mod = await preFetchLib('lib-zhangbb-component', fetchOptions);
+      console.log('mod===>', mod);
       const Vue2 = mod.Vue2;
       const WrapperComponent1 = mod.Vue2Test;
 
@@ -56,52 +58,45 @@ export function vue2ToVue3(WrapperComponent, wrapperId) {
       });
 
       vm.$mount(`#${wrapperId}`);
-      console.log("vm===>", vm);
+      console.log('vm===>', vm);
     },
     props: WrapperComponent.props,
-    render() {
+    render () {
       vm && vm.$forceUpdate();
     },
   };
 }
-
-/*
- * Transform vue2 components to DOM.
- */
-
 /**
- *
+ * Transform vue3 components to DOM.
  * @param {*} WrapperComponentName
  * @param {*} wrapperId
  * @returns
  */
 export const vue3ToVue2 = async (WrapperComponent, wrapperId) => {
-  let vm;
+  let vm
 
   return {
-    mounted() {
-      this.init();
-    },
-    methods: {
-      init() {
-        vm = createApp({
-          render: () => {
-            return h(WrapperComponent, {
-              ...this.$props,
-            });
-          },
-        });
-
-        vm.mount(`#${wrapperId}`);
-      },
+    async mounted () {
+      await import('element-plus/dist/index.css')
+      vm = createApp({
+        render: () => {
+          return h(
+            WrapperComponent,
+            {
+              ...this.$props
+            }
+          )
+        }
+      })
+      vm.use(ElementPlus)
+      vm.mount(`#${wrapperId}`)
     },
     props: WrapperComponent.props,
-    render() {
-      vm && vm.$forceUpdate();
-    },
-    beforeDestroy() {},
-  };
-};
+    render () {
+      vm && vm.$forceUpdate()
+    }
+  }
+}
 
 export default {
   vue3ToVue2,
