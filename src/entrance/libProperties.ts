@@ -8,3 +8,7 @@
 import comps from '../components'
 
 export default comps
+
+// import * as comps from '../components'
+
+// export default comps

@@ -11,18 +11,18 @@
 import { exposeLib } from 'hel-lib-proxy';
 import { LIB_NAME } from '../configs/subApp';
 
-export type CompTypes = {
-  App: {
-    name: string,
-  },
-  HelloWorld: {
-    name: string,
-  },
-};
+// export type CompTypes = {
+//   App: {
+//     name: string,
+//   },
+//   HelloWorld: {
+//     name: string,
+//   },
+// };
 
 /**
  * 将提供给用户的lib暴露出去（同时也暴露了类型）
  */
-export const dtlib = exposeLib<CompTypes>(LIB_NAME);
+export const dtlib = exposeLib(LIB_NAME);
 
 export default dtlib;

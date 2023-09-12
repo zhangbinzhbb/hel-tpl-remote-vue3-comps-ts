@@ -1,16 +1,23 @@
 <template>
-  <button @click="click">vue2 button click</button>
+  <button @click="inc">vue2 button click</button>
+  <p>{{ count }}</p>
 </template>
 
 <script>
 
+import { ref } from 'vue';
+
 export default {
-  methods: {
-    click () {
-      this.$emit('btnClick');
-      // vue3 events needs the Camel-Case start with "on"
-      this.$emit('onBtnClick');
-    }
-  }
-}
+  setup () {
+    const count = ref(0);
+    const inc = () => {
+      count.value++;
+    };
+
+    return {
+      count,
+      inc,
+    };
+  },
+};
 </script>
